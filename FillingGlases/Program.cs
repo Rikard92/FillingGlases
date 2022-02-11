@@ -40,8 +40,9 @@ namespace FillingGlases
 
             TopGlas = GenerateGlases(row, 1, 1, null);
             Console.WriteLine("");
-            //PrintPyramid(TopGlas);
             fillTheGlases(r, g);
+            PrintPyramid(TopGlas, row, r, g);
+            Console.ReadLine();
         }
 
         private static void fillTheGlases(int r, int g)
@@ -78,7 +79,6 @@ namespace FillingGlases
             //10.000 millisekunder
             while (theGlas.isNotFull)
             {
-
                 TopGlas.addLiquid(1);
                 MillSec = MillSec + 100;
                 
@@ -117,16 +117,14 @@ namespace FillingGlases
                     }
                 }
 
+
+
                 Glas LowerLeft = GenerateGlases(row, r + 1, g, TheGlas);
-                
                 TheGlas.BelowLeft = LowerLeft;
-                
-                
+
 
                 Glas LowerRight = GenerateGlases(row, r + 1, g + 1, TheGlas);
                 TheGlas.BelowRight = LowerRight;
-
-                
                 
 
                 //Console.Write(TheGlas.r + "," + TheGlas.g);
@@ -139,25 +137,74 @@ namespace FillingGlases
 
 
 
-        private static void PrintPyramid(Glas TheGlas)
+        private static void PrintPyramid(Glas TheGlas, int row, int r, int g)
         {
             
             if (TheGlas != null && TheGlas.notVisited)
             {
-                Console.Write(TheGlas.r + "," + TheGlas.g);
+                
                 TheGlas.notVisited = false;
-                if (TheGlas.BelowLeft != null && TheGlas.BelowRight != null)
+                //if (TheGlas.BelowLeft != null && TheGlas.BelowRight != null)
+                //{
+                //    Console.Write(" Stand on L:" + TheGlas.BelowLeft.g + " Stand on R:" + TheGlas.BelowRight.g);
+                //}
+                //if (TheGlas.GlasToLeft != null)
+                //{
+                //    Console.Write(" Is next to " + TheGlas.GlasToLeft.r + "," + TheGlas.GlasToLeft.g);
+                //}
+                for (int x = 0; x < row; x++)
                 {
-                    Console.Write(" Stand on L:" + TheGlas.BelowLeft.g + " Stand on R:" + TheGlas.BelowRight.g);
+                    Console.Write("\t");
                 }
-                if (TheGlas.GlasToLeft != null)
-                {          
-                    Console.Write(" Is next to " + TheGlas.GlasToLeft.r + "," + TheGlas.GlasToLeft.g);
+                string paintglas = "G:" + TheGlas.r + "," + TheGlas.g;
+                if (r == TheGlas.r && g == TheGlas.g)
+                {
+                    paintglas = "[G:" + TheGlas.r + "," + TheGlas.g+"]";
                 }
-                Console.WriteLine("");
-                PrintPyramid(TheGlas.BelowLeft);
-                PrintPyramid(TheGlas.BelowRight);
-               
+                
+
+                Glas pointer = TheGlas.GlasToLeft;
+                while (pointer != null)
+                {                    
+                    string tmp = paintglas;
+                    
+                    if (r == pointer.r && g == pointer.g)
+                    {
+                        paintglas = "[G:" + pointer.r + "," + pointer.g + "]" + "\t\t" + tmp;
+                    }
+                    else
+                    {
+                        paintglas = "G:" + pointer.r + "," + pointer.g + "\t\t" + tmp;
+                    }
+                    pointer = pointer.GlasToLeft;
+                }
+
+                Console.WriteLine(paintglas);
+
+                string paintfill = TheGlas.ContainWatter.ToString();
+                
+                for (int x = 0; x < row; x++)
+                {
+                    Console.Write("\t");
+                }
+                pointer = TheGlas.GlasToLeft;
+                while (pointer != null)
+                {
+                    string tmp = paintfill;
+                    if (pointer.ContainWatter.ToString().Length > 7)
+                    {
+                        paintfill = pointer.ContainWatter.ToString() + "\t" + tmp;
+                    }
+                    else
+                    {
+                        paintfill = pointer.ContainWatter.ToString() + "\t\t" + tmp;
+                    }
+                    
+                    pointer = pointer.GlasToLeft;
+                }
+                Console.WriteLine(paintfill);
+                PrintPyramid(TheGlas.BelowRight, row - 1, r, g);
+
             }
             
         }

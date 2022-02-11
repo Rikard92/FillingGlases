@@ -60,26 +60,6 @@ namespace FillingGlases
                 }
                 ContainWatter = Overflowlimit;
             }
-
-
-
-            //if (ContainWatter> Overflow)
-            //{
-            //    isNotFull = false;
-            //    double Theoverflow = (Overflow - ContainWatter) / 2;
-            //    Console.WriteLine(Theoverflow);
-            //    ContainWatter = ContainWatter - Theoverflow;
-
-            //    if (BelowLeft != null)
-            //    {
-            //        BelowLeft.addLiquid(Theoverflow);
-            //    }
-            //    if(BelowRight != null)
-            //    {
-            //        BelowRight.addLiquid(Theoverflow);
-            //    }
-                
-            //}
         }
     }
 }
