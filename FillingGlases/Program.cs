@@ -106,6 +106,7 @@ namespace FillingGlases
                     if (GoTrough.BelowLeft != null)
                     {
                         TheGlas.GlasToLeft = GoTrough.BelowLeft;
+                        TheGlas.GlasToLeft.GlasToRight = TheGlas;
                     }
 
                     if (GoTrough.GlasToLeft != null)
